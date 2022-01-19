@@ -3,31 +3,32 @@ name: CI
 
 # Definition when the workflow should run
 on:
-    workflow_dispatch:
-    push:
-        branches:
-            - main
-        paths-ignore:
-            - 'sfdx-project.json'
-            - 'README.md'
+  workflow_dispatch:
+  push:
+      branches:
+          - main
+      paths-ignore:
+          - 'sfdx-project.json'
+          - 'README.md'
 
 # Jobs to be executed
 jobs:
-    format-lint-lwc-tests:
-        runs-on: ubuntu-latest
-        steps:
-            # Checkout the source code
-            - name: 'Checkout source code'
-              uses: actions/checkout@v2
+  format-lint-lwc-tests:
+      runs-on: ubuntu-latest
+      steps:
+          # Checkout the source code
+          - name: 'Checkout source code'
+            uses: actions/checkout@v2
 
-               # Install Volta to enforce proper node and package manager versions
-            - name: 'Install Volta'
-              uses: volta-cli/action@v1
+              # Install Volta to enforce proper node and package manager versions
+          - name: 'Install Volta'
+            uses: volta-cli/action@v1
 
-              # Install npm dependencies for Prettier and Jest
-            - name: 'Install npm dependencies'
-              run: npm ci
+            # Install npm dependencies for Prettier and Jest
+            - uses: actions/setup-node@v1
+             with:
+            node-version: '10.x'
 
-            # Prettier formatting
-            - name: 'Code formatting verification with Prettier'
-              run: npm run prettier:verify
+          # Prettier formatting
+          - name: 'Code formatting verification with Prettier'
+            run: npm run prettier:verify
