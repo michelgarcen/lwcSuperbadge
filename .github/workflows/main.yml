@@ -22,7 +22,11 @@ jobs:
           uses: actions/setup-node@v2
           with:
             node-version: '14'
-        
+         
+         # Install Prettier 
+        - name: 'Install Prettier'
+          run: npm install -g prettier
+
         # Prettier formatting
         - name: 'Code formatting verification with Prettier'
           run: npm run prettier:verify
