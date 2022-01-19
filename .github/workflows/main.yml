@@ -27,10 +27,17 @@ jobs:
         - name: 'Install Prettier'
           run: npm install -g prettier
 
-        # LWC unit tests
-        - name: 'Unit test Lightning Web Components'
-          run: npm run test:unit:coverage
+        # Prettier formatting
+        #- name: 'Code formatting verification with Prettier'
+        #  run: npm run prettier:verify
 
+         # Install Salesforce CLI
+        - name: Install Salesforce CLI
+          run: |
+            npm install sfdx-cli
+            node_modules/sfdx-cli/bin/run --version
+            node_modules/sfdx-cli/bin/run plugins --core
+  
              
      
       
