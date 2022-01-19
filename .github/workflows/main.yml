@@ -31,12 +31,16 @@ jobs:
         #- name: 'Code formatting verification with Prettier'
         #  run: npm run prettier:verify
 
-         # Install Salesforce CLI
+        # Install Salesforce CLI
         - name: Install Salesforce CLI
           run: |
             npm install sfdx-cli
             node_modules/sfdx-cli/bin/run --version
             node_modules/sfdx-cli/bin/run plugins --core
+
+        # Run Apex test
+        - name: Run Apex test
+          run: node_modules/sfdx-cli/bin/run force:apex:test:run -c -r human
   
              
      
