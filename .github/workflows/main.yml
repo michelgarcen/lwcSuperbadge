@@ -13,7 +13,7 @@ push:
 
 # Jobs to be executed
 jobs:
-format-lint-lwc-tests:
+  lint:
     runs-on: ubuntu-latest
     steps:
          steps:
@@ -23,7 +23,7 @@ format-lint-lwc-tests:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-          
+
         # Prettier formatting
         - name: 'Code formatting verification with Prettier'
           run: npm run prettier:verify
