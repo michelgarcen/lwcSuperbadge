@@ -31,6 +31,10 @@ jobs:
         - name: 'Code formatting verification with Prettier'
           run: npm run prettier:verify
 
+        # LWC unit tests
+        - name: 'Unit test Lightning Web Components'
+          run: npm run test:unit:coverage
+
              
      
       
