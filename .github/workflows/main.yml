@@ -13,14 +13,29 @@ on:
 
 # Jobs to be executed
 jobs:
-    format-lint-lwc-tests:
+    checkout-auth-scatch-tests:
         runs-on: ubuntu-latest
         steps:
+        # Checkout the source code
+        - name: 'Checkout source code'
+          uses: actions/checkout@v2
 
-        - uses: actions/checkout@v2              
-        - name: Write the token into a file
-          run: 'echo ${{ secrets.DEVHUB_TOKEN}} > token.txt'
-          
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: '14'
+            
+        # Store secret for dev hub
+        - name: 'Populate auth file with DEVHUB_TOKEN secret'
+            shell: bash
+            run: |
+                echo ${{ secrets.DEVHUB_TOKEN}} > ./DEVHUB_TOKEN.txt
+                secretFileSize=$(wc -c "./DEVHUB_TOKEN.txt" | awk '{print $1}')
+                if [ $secretFileSize == 1 ]; then
+                    echo "Missing DEVHUB_TOKEN secret. Is this workflow running on a fork?";
+                    exit 1;
+                fi              
+        
         # Install Salesforce CLI
         - name: Install Salesforce CLI
           run: |
