@@ -1,5 +1,4 @@
 import { LightningElement,api,track } from 'lwc';
-import getAllReviews from '@salesforce/apex/BoatDataService.getAllReviews';
 import { NavigationMixin } from 'lightning/navigation';
 
 export default class BoatReviews extends NavigationMixin(LightningElement) {
