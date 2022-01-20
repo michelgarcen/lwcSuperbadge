@@ -19,7 +19,8 @@ jobs:
         # Checkout the source code
         - name: 'Checkout source code'
           uses: actions/checkout@v2
-
+        
+        # Node setup
         - uses: actions/checkout@v2
         - name: Setup Node.js
           uses: actions/setup-node@v2
