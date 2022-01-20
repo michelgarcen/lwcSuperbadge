@@ -16,27 +16,51 @@ jobs:
     format-lint-lwc-tests:
         runs-on: ubuntu-latest
         steps:
-        - uses: actions/checkout@v2
 
-        - name: Setup Node.js
-          uses: actions/setup-node@v2
-          with:
-            node-version: '14'
+        - uses: actions/checkout@v2              
+        - name: Write the token into a file
+          run: 'echo ${{ secrets.DEVHUB_TOKEN}} > token.txt'
+          
+        # Install Salesforce CLI
+        - name: Install Salesforce CLI
+          run: |
+            npm install sfdx-cli
+            node_modules/sfdx-cli/bin/run --version
+            node_modules/sfdx-cli/bin/run plugins --core
+
+        - name: Auth with the DevHub
+          run: 'sfdx force:auth:sfdxurl:store -f token.txt -a DevHub -d'
+
+        - name: Create scratch org
+          run: 'sfdx force:org:create -f config/project-scratch-def.json -a my-scratch'
+
+        - name: Push source
+          run: 'sfdx force:source:push -u my-scratch'
+
+        - name: List orgs
+          run: 'sfdx force:org:list'
+
+        - name: Run tests
+          run: 'sfdx force:apex:test:run -u my-scratch --resultformat human'
+
+        - name: Delete scratch org
+          run: 'sfdx force:org:delete -u my-scratch --noprompt'
+
+        #- uses: actions/checkout@v2
+        #- name: Setup Node.js
+        #  uses: actions/setup-node@v2
+        #  with:
+        #    node-version: '14'
          
-         # Install Prettier 
-        - name: 'Install Prettier'
-          run: npm install -g prettier
+        # Install Prettier 
+        #- name: 'Install Prettier'
+        #  run: npm install -g prettier
 
         # Prettier formatting
-        - name: 'Code formatting verification with Prettier'
-          run: npm run prettier:verify
+        #- name: 'Code formatting verification with Prettier'
+        #  run: npm run prettier:verify
 
-        # Install Salesforce CLI
-        #- name: Install Salesforce CLI
-        #  run: |
-        #    npm install sfdx-cli
-        #    node_modules/sfdx-cli/bin/run --version
-        #    node_modules/sfdx-cli/bin/run plugins --core
+        
 
         # Run Apex test
         #- name: Run Apex test
